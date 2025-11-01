@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <main>
-    <router-view />
+  <Navbar />
+  <main class="w900px m-auto">
+    <RouterView />
+    <Footer />
   </main>
 </template>

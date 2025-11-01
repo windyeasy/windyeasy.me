@@ -1,0 +1,9 @@
+.prose {
+  --fg: #333;
+  --fg-deeper: #000;
+}
+
+.prose a {
+  color: var(--fg-deeper);
+  text-decoration: none;
+}
