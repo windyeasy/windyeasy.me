@@ -4,6 +4,7 @@ import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
+import Markdown from 'vite-plugin-md'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,8 +18,11 @@ export default defineConfig({
     ],
   },
   plugins: [
-    vue(),
+    vue({
+      include: [/\.vue$/, /\.md$/],
+    }),
     UnoCSS(),
+    Markdown(),
     Components({
       dts: true,
     }),

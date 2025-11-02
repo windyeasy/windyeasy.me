@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-
+import Index from '../../pages/index.md'
 </script>
 
 <template>
-  <div id="home">
-    hello world
-  </div>
+  <Index />
 </template>
