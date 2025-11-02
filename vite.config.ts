@@ -3,6 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import { VueRouterAutoImports } from 'unplugin-vue-router'
+import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 import Markdown from 'vite-plugin-md'
 
@@ -18,11 +20,16 @@ export default defineConfig({
     ],
   },
   plugins: [
+    UnoCSS(),
+    Markdown(),
+    VueRouter({
+      extensions: ['.vue', '.md'],
+      routesFolder: 'pages',
+    }),
     vue({
       include: [/\.vue$/, /\.md$/],
     }),
-    UnoCSS(),
-    Markdown(),
+
     Components({
       dts: true,
     }),
@@ -37,7 +44,7 @@ export default defineConfig({
       ],
       imports: [
         'vue',
-        'vue-router',
+        VueRouterAutoImports,
         '@vueuse/core',
       ],
     }),
