@@ -1,6 +1,8 @@
 .prose {
   --fg: #333;
   --fg-deeper: #000;
+
+  line-height: 1.8;
 }
 
 .prose a {
