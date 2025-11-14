@@ -4,6 +4,10 @@
 
   line-height: 1.8;
 }
+.dark .prose {
+  --fg: #f5f5f5;
+  --fg-deeper: #fff;
+}
 
 .prose a {
   color: var(--fg-deeper);

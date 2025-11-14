@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { toggleDark } from '@/utils'
+// import { toggleDark } from '@/utils'
 </script>
 
 <template>
   <div class="navbar flex justify-between py-4 px-8">
     <div class="logo">
       <RouterLink to="/">
-        <img src="../assets/vue.svg" alt="Logo">
+        <img src="../assets/logo.png" w50px h50px alt="Logo">
       </RouterLink>
     </div>
     <div class="nav-list prose text-14px flex items-center">
@@ -25,11 +25,11 @@ import { toggleDark } from '@/utils'
           <i class="i-uil-github-alt inline-block" />
         </a>
       </div>
-      <div class="nav  flex items-center op60 hover:op100">
-        <div cursor-pointer title="Mode" @click="toggleDark">
+      <!-- <div class="nav  flex items-center op60 hover:op100">
+        <a href="javascript:;" cursor-pointer title="Mode" @click="toggleDark">
           <i class="i-ri-sun-line dark:i-ri-moon-line inline-block" />
-        </div>
-      </div>
+        </a>
+      </div> -->
     </div>
   </div>
 </template>
