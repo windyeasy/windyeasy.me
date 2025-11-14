@@ -30,3 +30,4 @@ dist-ssr
 # automatically generate the type file
 auto-imports.d.ts
 components.d.ts
+typed-router.d.ts

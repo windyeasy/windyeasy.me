@@ -25,16 +25,19 @@ export default defineConfig({
     VueRouter({
       extensions: ['.vue', '.md'],
       routesFolder: 'pages',
+      dts: 'types/typed-router.d.ts',
     }),
     vue({
       include: [/\.vue$/, /\.md$/],
     }),
 
     Components({
-      dts: true,
+      extensions: ['vue', 'md'],
+      dts: 'types/components.d.ts',
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
     }),
     AutoImport({
-      dts: true, // or a custom path
+      dts: 'types/auto-imports.d.ts', // or a custom path
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
         /\.vue$/,
