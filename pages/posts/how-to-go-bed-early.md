@@ -1,6 +1,6 @@
 ---
 title: 如何早睡
-catgory: 随笔
+catgory: Jottings
 date: 2025-11-14
 ---
 
