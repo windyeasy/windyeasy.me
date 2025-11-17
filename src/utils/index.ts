@@ -1,4 +1,5 @@
-import type { BlogInfo } from 'types/type'
+import type { BlogInfo, CategoryItem } from 'types/type'
+import { format } from 'date-fns'
 
 export const isDark = useDark()
 export function toggleDark() {
@@ -19,11 +20,6 @@ export async function getPostsInfos(): Promise<BlogInfo[]> {
       ...module.frontmatter,
     }
   })
-  /***
-   * todo: 将中文分类映射为英文分类
-   * 直接定义分类配置项，或者解析pages第一层文件目录，使用全英语分类，到时候通过I18n作一个映射中文，全中文
-   * 后面我可能会使用英文写博客
-   */
   return infos
 }
 
@@ -32,8 +28,31 @@ export async function getPostsInfos(): Promise<BlogInfo[]> {
  * @param str 传入的字符串
  * @returns 返回首字母变小字符
  */
-export function firstLetterToLowerCase(str: string): string {
+export function firstLetterToUpperCase(str: string): string {
   if (!str || typeof str !== 'string')
     return str
-  return str.charAt(0).toLowerCase() + str.slice(1)
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+/**
+ * 获取分类信息
+ */
+export async function getCategoryInfos(): Promise<CategoryItem[]> {
+  const modules = await import.meta.glob<any>('../../pages/*.md', { eager: true })
+  const categoryList: CategoryItem[] = []
+  Object.keys(modules).forEach((key) => {
+    if (!key || key.includes('index') || key.includes('posts'))
+      return
+    const title = /pages[/\\](.*?)\.md$/.exec(key)![1]
+    categoryList.push({
+      title: firstLetterToUpperCase(title),
+      path: `/${title}`,
+
+    })
+  })
+  return categoryList
+}
+
+export function formatDate(date: string | number, fmt = 'yyyy-MM-dd') {
+  return format(date, fmt)
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { CategoryItem } from 'types/type'
-import { firstLetterToLowerCase, getPostsInfos } from '@/utils'
+import { getCategoryInfos } from '@/utils'
 
 const route = useRoute()
 function isActive(path: string) {
@@ -9,16 +9,12 @@ function isActive(path: string) {
 
 const category = ref<CategoryItem[]>([])
 watchEffect(async () => {
-  const info = await getPostsInfos()
-  category.value = info.map(item => ({
-    title: item.catgory,
-    path: `/${firstLetterToLowerCase(item.catgory)}`,
-  }))
+  category.value = await getCategoryInfos()
 })
 </script>
 
 <template>
-  <div class="category prose" mt-40px flex>
+  <div class="category prose" flex>
     <template v-for="item of category" :key="item.path">
       <RouterLink :to="item.path" class="category-item mr4" :class="{ active: isActive(item.path) }">
         {{ item.title }}

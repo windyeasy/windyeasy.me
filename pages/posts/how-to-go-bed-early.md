@@ -1,6 +1,6 @@
 ---
 title: 如何早睡
-catgory: Jottings
+catgory: Blog
 date: 2025-11-14
 ---
 

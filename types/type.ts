@@ -3,7 +3,6 @@ export interface CategoryItem {
   path: string
 }
 
-
 export interface BlogInfo {
   id: string
   title: string

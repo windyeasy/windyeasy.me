@@ -1,4 +1,4 @@
 <Category />
 
 # Blog
-<ArticleList />
+<ArticleList category="Blog"  />

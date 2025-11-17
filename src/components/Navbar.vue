@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="navbar flex justify-between py-4 px-8">
+  <div class="navbar flex justify-between py-4 px-8 mb-60px">
     <div class="logo">
       <RouterLink to="/">
         <img src="../assets/logo.png" w50px h50px alt="Logo">
