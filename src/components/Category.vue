@@ -16,7 +16,7 @@ watchEffect(async () => {
 <template>
   <div class="category prose" flex>
     <template v-for="item of category" :key="item.path">
-      <RouterLink :to="item.path" class="category-item mr4" :class="{ active: isActive(item.path) }">
+      <RouterLink :to="item.path" replace class="category-item mr4" :class="{ active: isActive(item.path) }">
         {{ item.title }}
       </RouterLink>
     </template>

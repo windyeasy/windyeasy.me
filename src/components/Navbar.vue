@@ -11,12 +11,12 @@
     </div>
     <div class="nav-list prose text-14px flex items-center">
       <div class="nav mr-5 op60 flex items-center hover:op100">
-        <RouterLink to="/" title="Home">
+        <RouterLink to="/" replace title="Home">
           Home
         </RouterLink>
       </div>
       <div class="nav mr-5 op60 flex items-center hover:op100">
-        <RouterLink to="/blog" title="Blog">
+        <RouterLink to="/blog" replace title="Blog">
           Blog
         </RouterLink>
       </div>
