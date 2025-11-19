@@ -34,6 +34,20 @@ export function firstLetterToUpperCase(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+const categoryFilterRoutes = [
+  'index',
+  'posts',
+  '[...404]',
+]
+
+/* 检测是否包含需要过滤的路由 */
+function checkCategoryFilterRoutes(key: string): boolean {
+  for (const value of categoryFilterRoutes) {
+    if (key.includes(value))
+      return true
+  }
+  return false
+}
 /**
  * 获取分类信息
  */
@@ -41,7 +55,7 @@ export async function getCategoryInfos(): Promise<CategoryItem[]> {
   const modules = await import.meta.glob<any>('../../pages/*.md', { eager: true })
   const categoryList: CategoryItem[] = []
   Object.keys(modules).forEach((key) => {
-    if (!key || key.includes('index') || key.includes('posts'))
+    if (checkCategoryFilterRoutes(key))
       return
     const title = /pages[/\\](.*?)\.md$/.exec(key)![1]
     categoryList.push({
