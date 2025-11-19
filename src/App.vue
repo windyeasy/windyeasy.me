@@ -4,7 +4,7 @@
 
 <template>
   <Navbar />
-  <main class="w900px prose m-auto pos-relative">
+  <main class="w700px prose m-auto">
     <BackPage />
     <RouterView />
     <Footer />

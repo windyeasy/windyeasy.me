@@ -5,14 +5,14 @@ const route = useRoute()
 const isShowBackPage = computed(() => {
   return route.path.includes('posts')
 })
-// todo: 完善返回以及路由的切换
+
 function goBack() {
   router.back()
 }
 </script>
 
 <template>
-  <button v-if="isShowBackPage" class="back-page flex items-center" @click="goBack">
+  <button v-if="isShowBackPage" class="back-page flex items-center justify-end" @click="goBack">
     <span class="icon ">
       &lt;-
     </span>
@@ -24,17 +24,19 @@ function goBack() {
 
 <style scoped>
 .back-page {
-  position: absolute;
-  right: 0;
-  top: -40px;
+  position: fixed;
+  z-index: 100;
+  top: 80px;
+  width: 820px;
   border: none;
   outline: none;
   border-radius: 4px;
-  background-color: transparent;
-  padding: 6px 20px 8px;
+  padding: 0px 20px 0px;
   color: var(--fg-deeper);
   opacity: 0.6;
   cursor: pointer;
+  background-color: var(--bg);
+
 }
 
 .back-page:hover {
