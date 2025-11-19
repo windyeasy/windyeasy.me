@@ -5,11 +5,16 @@ import { formatDate, getPostsInfos } from '@/utils'
 const props = defineProps<{
   category: string
 }>()
-const postsInfos = ref<BlogInfo[]>()
+const postsInfos = ref<BlogInfo[]>([])
 watchEffect(async () => {
   const infos = await getPostsInfos()
+  // 过滤掉不是同一分类的
   postsInfos.value = infos.filter((item) => {
     return item.catgory === props.category
+  }).sort((a, b) => {
+    const date1 = new Date(formatDate(a.date))
+    const date2 = new Date(formatDate(b.date))
+    return date2.getTime() - date1.getTime()
   })
 })
 
@@ -39,6 +44,9 @@ function toDetail(path: string) {
         </div>
       </div>
     </template>
+    <div v-if="!postsInfos.length" class="none-data text-lg py-3 op60">
+      ~~~~~None Data~~~~~
+    </div>
   </div>
 </template>
 
