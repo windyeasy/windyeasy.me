@@ -7,3 +7,12 @@
     <a href="https://github.com/windyeasy" class="op70" target="_blank">windyeasy.me (^_^) 2025-PRESENT © windyeasy</a>
   </div>
 </template>
+
+<style scoped>
+.copyright a {
+  border: none;
+}
+.copyright a:hover {
+  border: none;
+}
+</style>

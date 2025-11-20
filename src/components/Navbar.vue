@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import { toggleDark } from '@/utils'
+import { toggleDark } from '@/utils'
 </script>
 
 <template>
@@ -31,11 +31,11 @@
             <i class="i-uil-github-alt inline-block" />
           </a>
         </div>
-      <!-- <div class="nav  flex items-center op60 hover:op100">
-        <a href="javascript:;" cursor-pointer title="Mode" @click="toggleDark">
-          <i class="i-ri-sun-line dark:i-ri-moon-line inline-block" />
-        </a>
-      </div> -->
+        <div class="nav  flex items-center op60 hover:op100">
+          <a href="javascript:;" cursor-pointer title="Mode" @click="toggleDark">
+            <i class="i-ri-sun-line dark:i-ri-moon-line inline-block" />
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -47,10 +47,18 @@
   background-color: var(--bg);
   z-index: 100;
 }
+
 .navbar-wrap {
   width: 100vw;
   box-sizing: border-box;
   background-color: var(--bg);
   z-index: 1;
+}
+
+.navbar .nav  a {
+  border: none;
+}
+.navbar .nav  a:hover {
+    border: none;
 }
 </style>

@@ -1,5 +1,5 @@
 :root {
-  --bg: #fafafa;
+  --bg: #fff;
   --button-primary: #eee;
 }
 
@@ -11,5 +11,5 @@ body {
 }
 
 .dark {
-  --bg: #050505;
+  --bg: #121212;
 }
