@@ -24,12 +24,30 @@ function toDetail(path: string) {
 }
 
 // todo: 添加时间轴
+const timelineDates: string[] = []
+
+function fmtDateYear(date: string) {
+  return formatDate(date, 'yyyy')
+}
+
+function isShowTimeline(date: string) {
+  const year = fmtDateYear(date)
+  if (timelineDates.includes(year)) {
+    return false
+  }
+
+  timelineDates.push(year)
+  return true
+}
 </script>
 
 <template>
   <div class="article-list prose w-600px">
     <template v-for="item of postsInfos" :key="item.path">
       <div class="article-item mb-15px" @click="toDetail(item.path)">
+        <div v-show="isShowTimeline(item.date)" class="timeline-date  text-[50px] fw-bold">
+          {{ fmtDateYear(item.date) }}
+        </div>
         <div class="item-head flex text-lg items-center">
           <div class="title">
             {{ item.title }}
@@ -56,10 +74,19 @@ function toDetail(path: string) {
 
 }
 
+.timeline-date {
+  color: var(--bg);
+  text-shadow: 0px 0px 3px var(--fg);
+  transform: translateX(-30px);
+  line-height: 1;
+  z-index: -1;
+}
+
 .article-item {
   position: relative;
   cursor: pointer;
-   opacity: 0.7;
+  opacity: 0.7;
+  z-index: 1;
 }
 
 .article-item:hover {
