@@ -26,7 +26,7 @@ function goBack() {
 .back-page {
   position: fixed;
   z-index: 100;
-  top: 80px;
+  top: 70px;
   width: 820px;
   border: none;
   outline: none;

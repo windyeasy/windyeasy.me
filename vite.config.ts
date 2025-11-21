@@ -1,5 +1,5 @@
 import { fileURLToPath, URL } from 'node:url'
-import Shiki from '@shikijs/markdown-it'
+import MarkdownItShiki from '@shikijs/markdown-it'
 import { transformerNotationDiff, transformerNotationHighlight, transformerNotationWordHighlight } from '@shikijs/transformers'
 import { rendererRich, transformerTwoslash } from '@shikijs/twoslash'
 import vue from '@vitejs/plugin-vue'
@@ -11,7 +11,7 @@ import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 import Markdown from 'vite-plugin-md'
 
-let cacheItShikiPlugin: any = null
+let cacheMarkdownItShiki: any = null
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -20,20 +20,18 @@ export default defineConfig({
       'vue',
       'vue-router',
       '@vueuse/core',
-      'dayjs',
-      'dayjs/plugin/localizedFormat',
+
     ],
   },
   plugins: [
     UnoCSS(),
     Markdown({
       async markdownItSetup(md) {
-        // 例如注册 markdown-it 插件
-        if (!cacheItShikiPlugin) {
-          cacheItShikiPlugin = await Shiki({
+        if (!cacheMarkdownItShiki) {
+          cacheMarkdownItShiki = await MarkdownItShiki({
             themes: {
-              light: 'vitesse-light',
               dark: 'vitesse-dark',
+              light: 'vitesse-light',
             },
             defaultColor: false,
             cssVariablePrefix: '--s-',
@@ -48,7 +46,7 @@ export default defineConfig({
             ],
           })
         }
-        md.use(cacheItShikiPlugin)
+        md.use(cacheMarkdownItShiki)
       },
     }),
     VueRouter({
