@@ -1,4 +1,4 @@
 <Category />
 
 # Jottings
-<ArticleList />
+<ArticleList category="Jottings" />

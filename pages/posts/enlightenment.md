@@ -6,4 +6,8 @@ date: 2025-11-14
 
 # 悟道
 
-观悟道的实质
+```css
+.test {
+  background: red;
+}
+```
