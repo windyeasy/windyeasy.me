@@ -28,6 +28,14 @@ watchEffect(async () => {
   font-size: 28px;
 }
 
+.category a {
+  border: none;
+}
+
+.category a:hover {
+  border: none;
+}
+
 .category-item {
   opacity: 0.8;
 }
