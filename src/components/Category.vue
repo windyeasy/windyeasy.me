@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import type { CategoryItem } from 'types/type'
-import { getCategoryInfos } from '@/utils'
+import { categoryInfos } from '@/data'
 
 const route = useRoute()
 function isActive(path: string) {
   return path === route.path
 }
 
-const category = ref<CategoryItem[]>([])
-watchEffect(async () => {
-  category.value = await getCategoryInfos()
+const category = computed(() => {
+  return categoryInfos
 })
 </script>
 

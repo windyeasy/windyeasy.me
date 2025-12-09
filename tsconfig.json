@@ -12,6 +12,10 @@
       "@/*": ["./src/*"]
     },
     "resolveJsonModule": true,
+    // types
+    "types": [
+      "unplugin-vue-router/client"
+    ],
     "allowImportingTsExtensions": true,
 
     /* Linting */
@@ -25,5 +29,5 @@
 
   },
   "references": [{ "path": "./tsconfig.node.json" }],
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.ts"]
+  "include": ["src/**/*.ts", "plugins/**/.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.ts"]
 }

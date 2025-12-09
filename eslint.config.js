@@ -5,4 +5,7 @@ export default antfu({
   rules: {
     'ts/no-unsafe-function-type': 'off',
   },
+  ignores: [
+    'src/data/*.json',
+  ],
 })

@@ -1,29 +1,18 @@
 <script setup lang="ts">
 import type { BlogInfo } from 'types/type'
-import { formatDate, getPostsInfos } from '@/utils'
+import { postsInfos as initPostsInfos } from '@/data'
+import { formatDate } from '@/utils'
 
 const props = defineProps<{
   category: string
 }>()
 const postsInfos = ref<BlogInfo[]>([])
-watchEffect(async () => {
-  const infos = await getPostsInfos()
-  // 过滤掉不是同一分类的
-  postsInfos.value = infos.filter((item) => {
-    return item.catgory === props.category
-  }).sort((a, b) => {
-    const date1 = new Date(formatDate(a.date))
-    const date2 = new Date(formatDate(b.date))
-    return date2.getTime() - date1.getTime()
-  })
-})
 
 const router = useRouter()
 function toDetail(path: string) {
   router.push(path)
 }
 
-// todo: 添加时间轴
 const timelineDates: string[] = []
 
 function fmtDateYear(date: string) {
@@ -39,6 +28,21 @@ function isShowTimeline(date: string) {
   timelineDates.push(year)
   return true
 }
+
+function getData() {
+  const infos = initPostsInfos
+  // 过滤掉不是同一分类的
+  postsInfos.value = infos.filter((item) => {
+    return item.catgory === props.category
+  }).sort((a, b) => {
+    // 通过时间排序
+    const date1 = new Date(formatDate(a.date))
+    const date2 = new Date(formatDate(b.date))
+    return date2.getTime() - date1.getTime()
+  })
+}
+
+getData()
 </script>
 
 <template>

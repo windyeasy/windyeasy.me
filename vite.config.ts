@@ -11,6 +11,8 @@ import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
 import Markdown from 'vite-plugin-md'
 
+import GenerateInfosData from './plugins/generate-infos-data'
+
 let cacheMarkdownItShiki: any = null
 
 // https://vitejs.dev/config/
@@ -20,11 +22,18 @@ export default defineConfig({
       'vue',
       'vue-router',
       '@vueuse/core',
-
     ],
   },
   plugins: [
     UnoCSS(),
+    VueRouter({
+      extensions: ['.vue', '.md'],
+      routesFolder: 'pages',
+      dts: 'types/typed-router.d.ts',
+    }),
+    vue({
+      include: [/\.vue$/, /\.md$/],
+    }),
     Markdown({
       async markdownItSetup(md) {
         if (!cacheMarkdownItShiki) {
@@ -49,35 +58,20 @@ export default defineConfig({
         md.use(cacheMarkdownItShiki)
       },
     }),
-    VueRouter({
-      extensions: ['.vue', '.md'],
-      routesFolder: 'pages',
-      dts: 'types/typed-router.d.ts',
-    }),
-    vue({
-      include: [/\.vue$/, /\.md$/],
-    }),
-
-    Components({
-      extensions: ['vue', 'md'],
-      dts: 'types/components.d.ts',
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-    }),
     AutoImport({
       dts: 'types/auto-imports.d.ts', // or a custom path
-      include: [
-        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
-        /\.vue$/,
-        /\.vue\?vue/, // .vue
-        /\.md$/, // .md
-
-      ],
       imports: [
         'vue',
         VueRouterAutoImports,
         '@vueuse/core',
       ],
     }),
+    Components({
+      extensions: ['vue', 'md'],
+      dts: 'types/components.d.ts',
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+    }),
+    GenerateInfosData(),
   ],
   resolve: {
     alias: {
