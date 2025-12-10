@@ -4,7 +4,7 @@ export interface CategoryItem {
 }
 
 export interface BlogInfo {
-  id: string
+  id: string | number
   title: string
   path: string
   /**

@@ -4,7 +4,6 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fg from 'fast-glob'
 import matter from 'gray-matter'
-import { v4 } from 'uuid'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -35,12 +34,12 @@ async function readFilePathsByPath(filePath: string, filterKeys: string[] = []) 
 async function readInfosByPath(filePath: string, filterKeys: string[] = []) {
   const files = await readFilePathsByPath(filePath, filterKeys)
 
-  const result = files.map((file) => {
+  const result = files.map((file, index) => {
     const raw = fs.readFileSync(file, 'utf-8')
     const { data } = matter(raw)
     const path = /pages[/\\](.*?)\.md$/.exec(file)![1]
     const info = {
-      id: v4(),
+      id: index + 1,
       path,
       ...data,
     }
