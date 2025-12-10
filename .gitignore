@@ -31,3 +31,6 @@ dist-ssr
 auto-imports.d.ts
 components.d.ts
 typed-router.d.ts
+
+src/data/categoryInfos-data.json
+src/data/postsinfos-data.json
