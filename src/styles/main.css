@@ -1,15 +1,42 @@
 :root {
   --bg: #fff;
   --button-primary: #eee;
+  --c-scrollbar: #eee;
+  --c-scrollbar-hover: #bbb;
 }
 
 body {
   font-size: 14px;
   font-family: Merriweather, "Noto Serif SC", Georgia, "Times New Roman", serif;
   background: var(--bg);
-
 }
 
 .dark {
   --bg: #121212;
+    --c-scrollbar: #111;
+  --c-scrollbar-hover: #222;
+}
+
+/* scrollbar */
+
+* {
+  scrollbar-color: var(--c-scrollbar) var(--c-bg);
+}
+:-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar:horizontal {
+  height: 6px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: var(--bg);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-scrollbar);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-scrollbar-hover);
 }
