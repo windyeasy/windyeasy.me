@@ -49,7 +49,7 @@ getData()
   <div class="article-list prose w-600px">
     <template v-for="item of postsInfos" :key="item.path">
       <div class="article-item mb-15px" @click="toDetail(item.path)">
-        <div v-show="isShowTimeline(item.date)" class="timeline-date  text-[50px] fw-bold">
+        <div v-show="isShowTimeline(item.date)" class="timeline-date  text-[50px] fw-bold mb-10px">
           {{ fmtDateYear(item.date) }}
         </div>
         <div class="item-head flex text-lg items-center">

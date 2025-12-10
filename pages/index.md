@@ -1,3 +1,5 @@
 # Windyeasy
 
-Windyeasy's personal website.
+Windyeasy的个人网站，用于写博客和写胡思乱想和随笔。
+
+我是一个前端工程师平时也喜欢胡思乱想所以想用文字记录这些内容。
