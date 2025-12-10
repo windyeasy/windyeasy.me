@@ -13,7 +13,23 @@ import Markdown from 'vite-plugin-md'
 
 import GenerateInfosData from './plugins/generate-infos-data'
 
-let cacheMarkdownItShiki: any = null
+const cacheMarkdownItShiki: any = MarkdownItShiki({
+  themes: {
+    dark: 'vitesse-dark',
+    light: 'vitesse-light',
+  },
+  defaultColor: false,
+  cssVariablePrefix: '--s-',
+  transformers: [
+    transformerTwoslash({
+      explicitTrigger: true,
+      renderer: rendererRich(),
+    }),
+    transformerNotationDiff(),
+    transformerNotationHighlight(),
+    transformerNotationWordHighlight(),
+  ],
+})
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -36,26 +52,7 @@ export default defineConfig({
     }),
     Markdown({
       async markdownItSetup(md) {
-        if (!cacheMarkdownItShiki) {
-          cacheMarkdownItShiki = await MarkdownItShiki({
-            themes: {
-              dark: 'vitesse-dark',
-              light: 'vitesse-light',
-            },
-            defaultColor: false,
-            cssVariablePrefix: '--s-',
-            transformers: [
-              transformerTwoslash({
-                explicitTrigger: true,
-                renderer: rendererRich(),
-              }),
-              transformerNotationDiff(),
-              transformerNotationHighlight(),
-              transformerNotationWordHighlight(),
-            ],
-          })
-        }
-        md.use(cacheMarkdownItShiki)
+        md.use(await cacheMarkdownItShiki)
       },
     }),
     AutoImport({

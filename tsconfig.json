@@ -29,5 +29,5 @@
 
   },
   "references": [{ "path": "./tsconfig.node.json" }],
-  "include": ["src/**/*.ts", "plugins/**/.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "types/**/*.ts"]
 }

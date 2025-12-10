@@ -12,8 +12,8 @@ body {
 }
 
 .dark {
-  --bg: #121212;
-    --c-scrollbar: #111;
+  --bg: #050505;
+  --c-scrollbar: #111;
   --c-scrollbar-hover: #222;
 }
 
