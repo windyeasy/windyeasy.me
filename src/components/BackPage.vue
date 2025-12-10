@@ -36,7 +36,12 @@ function goBack() {
   opacity: 0.6;
   cursor: pointer;
   background-color: var(--bg);
+}
 
+@media screen and (max-width: 820px){
+  .back-page {
+    width: 100%;
+  }
 }
 
 .back-page:hover {
