@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename)
  * 在打包时通过这个脚本生成json数据，用于打包后的静态文件使用
  */
 const postsDataInfosFileName = 'postsinfos-data.json'
-const categoryInfosFileName = 'categoryInfos-data.json'
+const categoryInfosFileName = 'categoryinfos-data.json'
 
 function resolveConfigPath(configArg: string) {
   return path.isAbsolute(configArg) ? configArg : path.resolve(__dirname, configArg)
