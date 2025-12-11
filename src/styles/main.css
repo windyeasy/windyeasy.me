@@ -6,7 +6,6 @@
 }
 
 body {
-  font-size: 14px;
   font-family: Merriweather, "Noto Serif SC", Georgia, "Times New Roman", serif;
   background: var(--bg);
 }

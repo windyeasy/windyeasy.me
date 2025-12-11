@@ -71,7 +71,7 @@
 }
 .prose ol > li {
   position: relative;
-  padding-left: 1.75em;
+  padding-left: 1.2em;
 }
 .prose ol > li::before {
   content: counter(list-item, var(--list-counter-style, decimal)) '.';
@@ -82,7 +82,7 @@
 }
 .prose ul > li {
   position: relative;
-  padding-left: 1.75em;
+  padding-left: 1em;
 }
 .prose ul > li::before {
   content: '';
@@ -262,16 +262,22 @@
 .prose h3 code {
   font-size: 0.9em;
 }
+
 .prose ol {
   margin-top: 1.25em;
   margin-bottom: 1.25em;
   list-style-type: none;
+  padding-left: 0.8rem;
 }
+
 .prose ul {
   margin-top: 1.25em;
   margin-bottom: 1.25em;
   list-style-type: none;
+  padding-left: 0.4rem;
 }
+
+
 .prose li {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -293,6 +299,8 @@
   margin-top: 0.75em;
   margin-bottom: 0.75em;
 }
+
+
 .prose hr + * {
   margin-top: 0;
 }
