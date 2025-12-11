@@ -27,7 +27,7 @@ function goBack() {
   position: fixed;
   z-index: 100;
   top: 70px;
-  width: 820px;
+  width: 860px;
   border: none;
   outline: none;
   border-radius: 4px;
