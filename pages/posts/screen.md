@@ -1,7 +1,7 @@
 ---
 title: 可视化大屏常用适配方式
 catgory: Blog
-date: 2025-12-10
+date: 2025-12-23
 ---
 
 # 可视化大屏常用适配方式
@@ -45,6 +45,288 @@ LED屏有很多规格，各规格计算方法相同：
 4. flex弹性布局
 5. scale方案（推荐），可以不用考虑echarts图表变化问题，比较方便
 
+#### 适配方案一-rem+font-size
+
+- 动态设置HTML根字体大小和body字体大小(lib_flexible.js)
+  - 将设计稿的宽(1920)平均分为24等份，每一份80px。移动端分为10等份(350/10)
+  - HTML字体大小就设置为80px，即1rem=80px， 24rem=1920px
+  - body字体大小为16px(移动端适配可能不一样)，移动端或者其它设备可以通过网络查询body字体大小
+  - 安装cssrem插件，root font size 设置为80px。 这个是px单位转rem的参考值
+    - px转rem方式：手动、less/scss函数、cssrem插件、webpack插件、vite插件
+
+```js
+// lib_flexible.js
+
+(function flexible(window, document) {
+  const docEl = document.documentElement
+  const dpr = window.devicePixelRatio || 1
+
+  // adjust body font size
+  function setBodyFontSize() {
+    if (document.body) {
+      // body 字体大小默认为 16px
+      document.body.style.fontSize = `${16 * dpr}px`
+    }
+    else {
+      document.addEventListener('DOMContentLoaded', setBodyFontSize)
+    }
+  }
+  setBodyFontSize()
+
+  // 这里默认平均分成 10 等分(适用移动端)
+  // set 1rem = viewWidth / 24 ；（使用pc端）
+  function setRemUnit() {
+    const rem = docEl.clientWidth / 24 // 1920 / 24 = 80
+    docEl.style.fontSize = `${rem}px` // 设置 html字体的大小 80px
+  }
+
+  setRemUnit()
+
+  // reset rem unit on page resize
+  window.addEventListener('resize', setRemUnit)
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      setRemUnit()
+    }
+  })
+
+  // detect 0.5px supports
+  if (dpr >= 2) {
+    const fakeBody = document.createElement('body')
+    const testElement = document.createElement('div')
+    testElement.style.border = '.5px solid transparent'
+    fakeBody.appendChild(testElement)
+    docEl.appendChild(fakeBody)
+    if (testElement.offsetHeight === 1) {
+      docEl.classList.add('hairlines')
+    }
+    docEl.removeChild(fakeBody)
+  }
+})(window, document)
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body, ul, li {
+      margin: 0;
+      padding: 0;
+    }
+    .wrapper {
+      width: 24rem;
+      height: 13.5rem;
+      margin: 0 auto;
+    }
+    ul, li {
+      list-style: none;
+    }
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    ul li {
+      width: 33.333%;
+      height: 50%;
+      font-size: .375rem;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: .025rem solid black;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+    </ul>
+  </div>
+  <script src="./lib_flexible.js"></script>
+</body>
+</html>
+```
+
+#### 大屏适配方案二-vw
+
+- 直接使用vw单位
+  - 屏幕的宽默认为100vw，那么100vw=1920px， 1vw=19.2px
+  - 安装cssrem插件，body的宽高(1920*1080px)直接把px转为vw单位
+    - px转rem方式：手动、less/scss函数、cssrem插件、webpack插件、vite插件
+- 适配方式是将屏幕的宽度设置为100vw,1920px/ 100 分为100份，1vw=19.2px, 把像素转为vw就可以实现适配
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body, ul, li {
+      margin: 0;
+      padding: 0;
+    }
+    .wrapper {
+      width: 100vw;
+      height: 56.25vw;
+      margin: 0 auto;
+    }
+    ul, li {
+      list-style: none;
+    }
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    ul li {
+      width: 33.333%;
+      height: 50%;
+      font-size: 1.5625vw;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: .1042vw solid black;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <ul>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+    </ul>
+  </div>
+</body>
+</html>
+```
+
+#### 适配方案三-scale
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body, ul, li {
+      margin: 0;
+      padding: 0;
+
+    }
+
+    .wrapper {
+      width: 100%;
+      height: 100%;
+      margin: 0 auto;
+      box-sizing: border-box;
+      border: 4px solid green;
+    }
+    ul, li {
+      list-style: none;
+    }
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    ul li {
+      width: 33.333%;
+      height: 50%;
+      font-size: 30px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <ul>
+      <li>1
+        <button onClick="reset()">还原默认样式</button>
+      </li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+    </ul>
+  </div>
+  <script>
+    const targetWidth = 1920
+    const targetHeight = 1080
+    const targetRatio = 16 / 9
+
+    const originStyle = document.body.style
+    const originWidth = originStyle.width
+    const originHeight = originStyle.height
+    const originTransform = originStyle.transform
+    const originTransformOrigin = originStyle.transformOrigin
+    const originPosition = originStyle.position
+    const originLeft = originStyle.left
+
+    const currentWidth = document.documentElement.clientWidth || document.body.clientWidth
+    const currentHeight = document.documentElement.clientHeight || document.body.clientWidth
+
+    let scaleRatio = currentWidth / targetWidth
+
+    // 当前缩放比例
+    const currentRatio = currentWidth / currentHeight
+    // 判断是否超宽屏幕
+    if (currentRatio > targetRatio){
+      scaleRatio = currentHeight / targetHeight
+    }
+
+    // 缓存默认样式用于还原
+
+    document.body.style.transform = `scale(${scaleRatio}) translateX(-50%)`
+    document.body.style.transformOrigin = 'left top'
+    document.body.style.width = targetWidth + 'px'
+    document.body.style.height = targetHeight + 'px'
+    document.body.style.position = 'absolute'
+    document.body.style.left = '50%'
+
+    function reset(){
+      document.body.style.transform = originTransform
+      document.body.style.transformOrigin = originTransformOrigin
+      document.body.style.width = originWidth
+      document.body.style.height = originHeight
+      document.body.style.position = originPosition
+      document.body.style.left = originLeft
+    }
+  </script>
+</body>
+</html>
+```
+
 ### 设计稿尺寸
 
 对于移动端大屏展示，基本按照实际尺寸设计即可，比如：
@@ -68,14 +350,6 @@ LED屏有很多规格，各规格计算方法相同：
   - 如果使用rem或vw单位时，在JS添加样式时，单位需要手动设置rem或vw。
   - 第三方为的字体默认都是px单位，比如：element、echarts，因此通常需要层叠第三方为的样式。
   - 当大展比例更大时，有此字体学需要相应的调整字号。
-- 图片模糊问题
-  - 切图时切1倍图、2倍图，大屏用大图，小屏用小图。
-  - 建议都使用SVG矢量图，保证放大缩小不会失真。
-- Echarts 渲染引擎的选择
-  - 使用SVG渲染引擎，SVG图扩展性更好
-- 动画卡顿优化
-  - 创建新的渲染层、启用GPU加速、善用CSS3形变动画
-  - 少用渐变和高斯模糊、当不需要动画时，及时关闭动画
 
 ### 基于VUE3缩放功能封装
 
@@ -86,42 +360,55 @@ utils:
 import { throttle } from 'lodash'
 
 export function bigScreenScale(targetWidth = 1920, targetHeight = 1080, targetRatio = 16 / 9) {
+  // 缓存默认样式用于还原
+  const originStyle = document.body.style
+  const originWidth = originStyle.width
+  const originHeight = originStyle.height
+  const originTransform = originStyle.transform
+  const originTransformOrigin = originStyle.transformOrigin
+  const originPosition = originStyle.position
+  const originLeft = originStyle.left
+
+  // 设置body的宽高
   document.body.style.width = `${targetWidth}px`
   document.body.style.height = `${targetHeight}px`
 
+  // body缩放函数
   function changeBodyScale() {
     const currentWidth = document.documentElement.clientWidth || document.body.clientWidth
-    const currentHeight = document.documentElement.clientHeight || document.body.clientHeight
+    const currentHeight = document.documentElement.clientHeight || document.body.clientWidth
 
-    // 计算缩放比例
     let scaleRatio = currentWidth / targetWidth
-    // 当前屏幕比例
+
+    // 当前缩放比例
     const currentRatio = currentWidth / currentHeight
-
-    // 缩放样式
-    let scaleStyle = `scale(${scaleRatio})`
-
-    // 超宽屏， 参照高度缩放后居中
+    // 判断是否超宽屏幕
     if (currentRatio > targetRatio) {
       scaleRatio = currentHeight / targetHeight
-      scaleStyle = `scale(${scaleRatio}) translateX(-50%)`
-      document.body.style.left = '50%'
-    }
-    else {
-      // 不是参照高度进行缩放，不居中
-      document.body.style.left = '0'
     }
 
-    document.body.style.transform = scaleStyle
+    document.body.style.transform = `scale(${scaleRatio}) translateX(-50%)`
+    document.body.style.transformOrigin = 'left top'
+    document.body.style.width = `${targetWidth}px`
+    document.body.style.height = `${targetHeight}px`
+    document.body.style.position = 'absolute'
+    document.body.style.left = '50%'
   }
 
   changeBodyScale()
 
   const throttleChangeBodyScale = throttle(changeBodyScale, 100)
 
-  // 可以使用节流
   window.addEventListener('resize', throttleChangeBodyScale)
+  // 返回取消释放函数释放
   return () => {
+    document.body.style.transform = originTransform
+    document.body.style.transformOrigin = originTransformOrigin
+    document.body.style.width = originWidth
+    document.body.style.height = originHeight
+    document.body.style.position = originPosition
+    document.body.style.left = originLeft
+
     window.removeEventListener('resize', throttleChangeBodyScale)
   }
 }
