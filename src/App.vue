@@ -1,43 +1,54 @@
 <script setup lang="ts">
-onMounted(() => {
-  const markdownBodyEl = document.querySelector('.markdown-body')
-  if (markdownBodyEl) {
-    const preEls = markdownBodyEl?.querySelectorAll('pre')
-    if (preEls && preEls.length) {
-      preEls.forEach((el: HTMLPreElement) => {
-        const copyEl = document.createElement('button')
+const route = useRoute()
+watch(
+  () => route.fullPath,
+  (newPath) => {
+    if (newPath && newPath.includes('posts')) {
+      nextTick(() => {
+        const markdownBodyEl = document.querySelector('.markdown-body')
+        if (markdownBodyEl) {
+          const preEls = markdownBodyEl?.querySelectorAll('pre')
+          if (preEls && preEls.length) {
+            preEls.forEach((el: HTMLPreElement) => {
+              const copyEl = document.createElement('button')
 
-        copyEl.classList.add('copy')
-        copyEl.title = 'Copy Code'
-        let copyFlag = false
-        copyEl.addEventListener('click', async () => {
-          if (copyFlag)
-            return
-          const parent = copyEl.parentElement
-          const text = parent?.textContent
-          if (text) {
-            await navigator.clipboard.writeText(text)
-            copyFlag = true
-            copyEl.classList.add('copied')
-            copyEl.textContent = 'Copied'
-            setTimeout(() => {
-              copyEl.classList.remove('copied')
-              copyEl.textContent = ''
-              copyFlag = false
-            }, 2000)
+              copyEl.classList.add('copy')
+              copyEl.title = 'Copy Code'
+              let copyFlag = false
+              copyEl.addEventListener('click', async () => {
+                if (copyFlag)
+                  return
+                const parent = copyEl.parentElement
+                const text = parent?.textContent
+                if (text) {
+                  await navigator.clipboard.writeText(text)
+                  copyFlag = true
+                  copyEl.classList.add('copied')
+                  copyEl.textContent = 'Copied'
+                  setTimeout(() => {
+                    copyEl.classList.remove('copied')
+                    copyEl.textContent = ''
+                    copyFlag = false
+                  }, 2000)
+                }
+              })
+
+              el.appendChild(copyEl)
+            })
           }
-        })
-
-        el.appendChild(copyEl)
+        }
       })
     }
-  }
-})
+  },
+  {
+    immediate: true,
+  },
+)
 </script>
 
 <template>
   <Navbar />
-  <main class="prose min-w-400px max-w-1200px m-auto">
+  <main class="prose min-w-400px max-w-700px m-auto">
     <BackPage />
     <RouterView />
     <Footer />
